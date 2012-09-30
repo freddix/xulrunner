@@ -11,6 +11,7 @@ Patch0:		%{name}-config.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
 Patch3:		%{name}-system-cairo.patch
+Patch4:		%{name}-virtualenv.patch
 URL:		http://developer.mozilla.org/en/docs/XULRunner
 BuildRequires:	OpenGL-devel
 BuildRequires:	automake
@@ -77,6 +78,7 @@ cd mozilla-release
 %patch1 -p1
 %patch2 -p1
 %patch3 -p2
+%patch4 -p1
 
 # use system headers
 rm -f extensions/spellcheck/hunspell/src/*.hxx

@@ -1,13 +1,13 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	15.0.1
-Release:	2
+Version:	16.0.1
+Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	743ba71fbce7b32023405db02d44143f
-Patch0:		%{name}-config.patch
+# Source0-md5:	78e641c67dc4a40cb3f48fce3e782d41
+Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
 Patch3:		%{name}-system-cairo.patch
@@ -32,6 +32,7 @@ BuildRequires:	nss-devel >= 1:3.13.3
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
 BuildRequires:	pkg-config
+BuildRequires:	python-devel-src
 BuildRequires:	sed
 BuildRequires:	sqlite3-devel >= 3.7.10
 BuildRequires:	startup-notification-devel
@@ -39,6 +40,7 @@ BuildRequires:	xorg-libXcursor-devel
 BuildRequires:	xorg-libXft-devel
 BuildRequires:	zip
 BuildRequires:	zlib-devel
+BuildConflicts:	xulrunner-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # bug680547
@@ -61,14 +63,6 @@ Requires:	nss-devel
 
 %description devel
 XULRunner development package.
-
-%package gnome
-Summary:	GNOME support package for XULRunner
-Group:		X11/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-
-%description gnome
-GNOME support package for XULRunner.
 
 %prep
 %setup -qc
@@ -163,8 +157,8 @@ cd mozilla-release
 	DESTDIR=$RPM_BUILD_ROOT		\
 	STRIP="/bin/true"
 
-install obj-x86_64/dist/bin/xpcshell $RPM_BUILD_ROOT%{_libdir}/%{name}
-install obj-x86_64/dist/bin/run-mozilla.sh $RPM_BUILD_ROOT%{_libdir}/%{name}
+install obj-%{_target_cpu}/dist/bin/xpcshell $RPM_BUILD_ROOT%{_libdir}/%{name}
+install obj-%{_target_cpu}/dist/bin/run-mozilla.sh $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -sf %{_libdir}/%{name}/run-mozilla.sh $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/run-mozilla.sh
 ln -sf %{_libdir}/%{name}/xpcshell $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/xpcshell
 
@@ -196,6 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/xulrunner/xulrunner
 
 %attr(755,root,root) %{_libdir}/xulrunner/components/libdbusservice.so
+%attr(755,root,root) %{_libdir}/xulrunner/components/libmozgnome.so
 
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/components
@@ -232,8 +227,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}-devel/sdk/lib/*.a
 %{_libdir}/%{name}-devel/xpcom-config.h
 %{_pkgconfigdir}/*.pc
-
-%files gnome
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/xulrunner/components/libmozgnome.so
 

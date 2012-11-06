@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	16.0.1
+Version:	16.0.2
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	78e641c67dc4a40cb3f48fce3e782d41
+# Source0-md5:	1b360968ab05b2a59757d33514897915
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch

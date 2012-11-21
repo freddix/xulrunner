@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	16.0.2
+Version:	17.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	1b360968ab05b2a59757d33514897915
+# Source0-md5:	3d9d2f6420344ff47a8af3a35ac4bdd6
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -17,6 +17,7 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-2
+BuildRequires:	gstreamer010-plugins-base-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel
@@ -113,6 +114,7 @@ ac_add_options --enable-optimize
 ac_add_options --disable-gnomeui
 ac_add_options --disable-gnomevfs
 ac_add_options --enable-gio
+ac_add_options --enable-gstreamer
 ac_add_options --enable-startup-notification
 #
 ac_add_options --enable-system-cairo

@@ -1,17 +1,18 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	17.0.1
+Version:	18.0.1
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	13d616028eb77de927c29b6655c832c9
+# Source0-md5:	8b400555fc7063163e3b99472d0c92a1
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
 Patch3:		%{name}-system-cairo.patch
 Patch4:		%{name}-virtualenv.patch
+Patch5:		%{name}-gyp-slashism.patch
 URL:		http://developer.mozilla.org/en/docs/XULRunner
 BuildRequires:	OpenGL-devel
 BuildRequires:	automake
@@ -25,11 +26,11 @@ BuildRequires:	libevent-devel
 BuildRequires:	libffi-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libnotify-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel >= 2:1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.9
-BuildRequires:	nss-devel >= 1:3.13.3
+BuildRequires:	nspr-devel >= 1:4.9.4
+BuildRequires:	nss-devel >= 1:3.14.1
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
 BuildRequires:	pkg-config
@@ -74,6 +75,7 @@ cd mozilla-release
 %patch2 -p1
 %patch3 -p2
 %patch4 -p1
+%patch5 -p2
 
 # use system headers
 rm -f extensions/spellcheck/hunspell/src/*.hxx

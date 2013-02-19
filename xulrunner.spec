@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	18.0.1
+Version:	19.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	8b400555fc7063163e3b99472d0c92a1
+# Source0-md5:	3dc732b6ce177792b43324f4bc7164d8
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -42,7 +42,7 @@ BuildRequires:	xorg-libXcursor-devel
 BuildRequires:	xorg-libXft-devel
 BuildRequires:	zip
 BuildRequires:	zlib-devel
-BuildConflicts:	xulrunner-devel
+BuildConflicts:	xulrunner
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # bug680547

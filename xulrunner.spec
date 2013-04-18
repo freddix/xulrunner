@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	19.0
+Version:	20.0.1
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	3dc732b6ce177792b43324f4bc7164d8
+# Source0-md5:	b822ff4b2348410587dec563235d9320
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -30,13 +30,13 @@ BuildRequires:	libpng-devel >= 2:1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
 BuildRequires:	nspr-devel >= 1:4.9.4
-BuildRequires:	nss-devel >= 1:3.14.1
+BuildRequires:	nss-devel >= 1:3.14.3
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
 BuildRequires:	pkg-config
 BuildRequires:	python-devel-src
 BuildRequires:	sed
-BuildRequires:	sqlite3-devel >= 3.7.10
+BuildRequires:	sqlite3-devel >= 3.7.15.2
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-libXcursor-devel
 BuildRequires:	xorg-libXft-devel
@@ -75,7 +75,7 @@ cd mozilla-release
 %patch2 -p1
 %patch3 -p2
 %patch4 -p1
-%patch5 -p2
+#%patch5 -p2
 
 # use system headers
 rm -f extensions/spellcheck/hunspell/src/*.hxx
@@ -143,8 +143,8 @@ mk_add_options MOZILLA_OFFICIAL=1
 
 EOF
 
-export CFLAGS="%{rpmcflags}"
-export CXXFLAGS="%{rpmcflags}"
+export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
+export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
 export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 
 %{__make} -f client.mk build		\
@@ -199,7 +199,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/components
 %dir %{_libdir}/%{name}/dictionaries
-%dir %{_libdir}/%{name}/plugins
 
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome.manifest

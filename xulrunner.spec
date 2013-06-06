@@ -1,18 +1,17 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	20.0.1
+Version:	21.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b822ff4b2348410587dec563235d9320
+# Source0-md5:	6e2510e9466b280c367de0e4c05a8840
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
 Patch3:		%{name}-system-cairo.patch
 Patch4:		%{name}-virtualenv.patch
-Patch5:		%{name}-gyp-slashism.patch
 URL:		http://developer.mozilla.org/en/docs/XULRunner
 BuildRequires:	OpenGL-devel
 BuildRequires:	automake
@@ -29,7 +28,7 @@ BuildRequires:	libnotify-devel
 BuildRequires:	libpng-devel >= 2:1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.9.4
+BuildRequires:	nspr-devel >= 1:4.9.6
 BuildRequires:	nss-devel >= 1:3.14.3
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
@@ -75,7 +74,6 @@ cd mozilla-release
 %patch2 -p1
 %patch3 -p2
 %patch4 -p1
-#%patch5 -p2
 
 # use system headers
 rm -f extensions/spellcheck/hunspell/src/*.hxx
@@ -196,38 +194,38 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/xulrunner/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/xulrunner/components/libmozgnome.so
 
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/components
-%dir %{_libdir}/%{name}/dictionaries
+%dir %{_libdir}/xulrunner
+%dir %{_libdir}/xulrunner/components
+%dir %{_libdir}/xulrunner/dictionaries
 
-%{_libdir}/%{name}/chrome
-%{_libdir}/%{name}/chrome.manifest
-%{_libdir}/%{name}/components/binary.manifest
-%{_libdir}/%{name}/dependentlibs.list
-%{_libdir}/%{name}/omni.ja
-%{_libdir}/%{name}/platform.ini
+%{_libdir}/xulrunner/chrome
+%{_libdir}/xulrunner/chrome.manifest
+%{_libdir}/xulrunner/components/components.manifest
+%{_libdir}/xulrunner/dependentlibs.list
+%{_libdir}/xulrunner/omni.ja
+%{_libdir}/xulrunner/platform.ini
 
 %files devel
 %defattr(644,root,root,755)
 
-%dir %{_libdir}/%{name}-devel
-%dir %{_libdir}/%{name}-devel/bin
-%dir %{_libdir}/%{name}-devel/idl
-%dir %{_libdir}/%{name}-devel/include
-%dir %{_libdir}/%{name}-devel/lib
-%dir %{_libdir}/%{name}-devel/sdk
-%dir %{_libdir}/%{name}-devel/sdk/bin
-%dir %{_libdir}/%{name}-devel/sdk/lib
+%dir %{_libdir}/xulrunner-devel
+%dir %{_libdir}/xulrunner-devel/bin
+%dir %{_libdir}/xulrunner-devel/idl
+%dir %{_libdir}/xulrunner-devel/include
+%dir %{_libdir}/xulrunner-devel/lib
+%dir %{_libdir}/xulrunner-devel/sdk
+%dir %{_libdir}/xulrunner-devel/sdk/bin
+%dir %{_libdir}/xulrunner-devel/sdk/lib
 
-%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/*
-%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/lib/*.so
-%{_libdir}/%{name}-devel/sdk/lib/*.desc
-%attr(755,root,root) %{_libdir}/%{name}/xulrunner-stub
+%attr(755,root,root) %{_libdir}/xulrunner-devel/sdk/bin/*
+%attr(755,root,root) %{_libdir}/xulrunner-devel/sdk/lib/*.so
+%{_libdir}/xulrunner-devel/sdk/lib/*.desc
+%attr(755,root,root) %{_libdir}/xulrunner/xulrunner-stub
 %attr(755,root,root) %{_libdir}/xulrunner/xpcshell
 
-%{_datadir}/idl/%{name}
-%{_includedir}/%{name}
-%{_libdir}/%{name}-devel/sdk/lib/*.a
-%{_libdir}/%{name}-devel/xpcom-config.h
+%{_datadir}/idl/xulrunner
+%{_includedir}/xulrunner
+%{_libdir}/xulrunner-devel/sdk/lib/*.a
+%{_libdir}/xulrunner-devel/xpcom-config.h
 %{_pkgconfigdir}/*.pc
 

@@ -44,9 +44,6 @@ BuildRequires:	zlib-devel
 BuildConflicts:	xulrunner
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# bug680547
-%define		specflags	-mno-avx
-
 %description
 XULRunner is a Mozilla runtime package that can be used to bootstrap
 XUL+XPCOM applications that are as rich as Firefox and Thunderbird. It
@@ -76,12 +73,12 @@ cd mozilla-release
 %patch4 -p1
 
 # use system headers
-rm -f extensions/spellcheck/hunspell/src/*.hxx
+%{__rm} extensions/spellcheck/hunspell/src/*.hxx
 echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Makefile.in
 
 # find ../../dist/sdk -name "*.pyc" | xargs rm
 # rm: missing operand
-sed -i -e "s|xargs rm|xargs rm -f|g" toolkit/mozapps/installer/packager.mk
+%{__sed} -i "s|xargs rm|xargs rm -f|g" toolkit/mozapps/installer/packager.mk
 
 %build
 cd mozilla-release
@@ -141,8 +138,11 @@ mk_add_options MOZILLA_OFFICIAL=1
 
 EOF
 
-export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
-export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
+# be conservative and proactive against unexpected crashes and set
+# default flags to something less optimized
+# generate smaller debug files
+export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
+export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
 export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 
 %{__make} -f client.mk build		\

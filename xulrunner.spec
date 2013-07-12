@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	21.0
+Version:	22.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	6e2510e9466b280c367de0e4c05a8840
+# Source0-md5:	4ffb6d1c1a04ca8e3dbca23df09626dd
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -141,10 +141,13 @@ EOF
 # be conservative and proactive against unexpected crashes and set
 # default flags to something less optimized
 # generate smaller debug files
-export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
-export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
-export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
+#export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
+#export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
+#export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 
+echo "-------------------"
+env
+echo "-------------------"
 %{__make} -f client.mk build		\
 	CC="%{__cc}"			\
 	CXX="%{__cxx}"			\
@@ -165,7 +168,6 @@ ln -sf %{_libdir}/%{name}/run-mozilla.sh $RPM_BUILD_ROOT%{_libdir}/%{name}-devel
 ln -sf %{_libdir}/%{name}/xpcshell $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/xpcshell
 
 ln -sf %{_libdir}/%{name}/libmozalloc.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libmozalloc.so
-ln -sf %{_libdir}/%{name}/libxpcom.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libxpcom.so
 ln -sf %{_libdir}/%{name}/libxul.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libxul.so
 
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner $RPM_BUILD_ROOT%{_bindir}/xulrunner
@@ -184,7 +186,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/xulrunner
 %attr(755,root,root) %{_libdir}/xulrunner/libmozalloc.so
-%attr(755,root,root) %{_libdir}/xulrunner/libxpcom.so
 %attr(755,root,root) %{_libdir}/xulrunner/libxul.so
 %attr(755,root,root) %{_libdir}/xulrunner/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/xulrunner/plugin-container

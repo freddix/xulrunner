@@ -138,16 +138,13 @@ mk_add_options MOZILLA_OFFICIAL=1
 
 EOF
 
-# be conservative and proactive against unexpected crashes and set
-# default flags to something less optimized
 # generate smaller debug files
-#export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
-#export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g' | sed 's/core-avx-i/x86-64/g')"
-#export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
+export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
+export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
+export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 
-echo "-------------------"
-env
-echo "-------------------"
+%{__make} -f client.mk configure
+
 %{__make} -f client.mk build		\
 	CC="%{__cc}"			\
 	CXX="%{__cxx}"			\

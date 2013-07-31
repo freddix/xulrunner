@@ -44,6 +44,9 @@ BuildRequires:	zlib-devel
 BuildConflicts:	xulrunner
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# bug680547
+%define		specflags	-mno-avx
+
 %description
 XULRunner is a Mozilla runtime package that can be used to bootstrap
 XUL+XPCOM applications that are as rich as Firefox and Thunderbird. It

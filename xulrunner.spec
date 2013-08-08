@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	22.0
+Version:	23.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	4ffb6d1c1a04ca8e3dbca23df09626dd
+# Source0-md5:	794e0139c4df0392146353c655d94bb9
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -28,8 +28,8 @@ BuildRequires:	libnotify-devel
 BuildRequires:	libpng-devel >= 2:1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.9.6
-BuildRequires:	nss-devel >= 1:3.14.3
+BuildRequires:	nspr-devel >= 1:4.10
+BuildRequires:	nss-devel >= 1:3.15.1
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
 BuildRequires:	pkg-config
@@ -72,7 +72,7 @@ cd mozilla-release
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p2
+#%%patch3 -p2
 %patch4 -p1
 
 # use system headers
@@ -109,7 +109,7 @@ ac_add_options --disable-updater
 ac_add_options --enable-safe-browsing
 ac_add_options --enable-url-classifier
 #
-ac_add_options --enable-optimize
+ac_add_options --enable-optimize="-O2"
 #
 ac_add_options --disable-gnomeui
 ac_add_options --disable-gnomevfs
@@ -117,7 +117,7 @@ ac_add_options --enable-gio
 ac_add_options --enable-gstreamer
 ac_add_options --enable-startup-notification
 #
-ac_add_options --enable-system-cairo
+#ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-lcms
 ac_add_options --enable-system-sqlite

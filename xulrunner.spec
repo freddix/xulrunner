@@ -146,8 +146,25 @@ export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
 export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
 export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 
-%{__make} -f client.mk configure
+# i686 build broken:
+#
+# Traceback (most recent call last):
+# File "./config.status", line 947, in <module>
+# config_status(**args)
+# File "/home/users/builder/rpm/BUILD/xulrunner-23.0/mozilla-release/build/ConfigStatus.py", line 117, in config_status
+# log_manager.add_terminal_logging(level=log_level)
+# File "/home/users/builder/rpm/BUILD/xulrunner-23.0/mozilla-release/python/mach/mach/logging.py", line 181, in add_terminal_logging
+# if self.terminal:
+# File "/home/users/builder/rpm/BUILD/xulrunner-23.0/mozilla-release/python/mach/mach/logging.py", line 153, in terminal
+# terminal = blessings.Terminal(stream=sys.stdout)
+# File "/home/users/builder/rpm/BUILD/xulrunner-23.0/mozilla-release/python/blessings/blessings/__init__.py", line 98, in __init__
+# self._init_descriptor)
+# _curses.error: setupterm: could not find terminal
+#
+# workaround:
+export TERM=xterm
 
+%{__make} -f client.mk configure
 %{__make} -f client.mk build		\
 	CC="%{__cc}"			\
 	CXX="%{__cxx}"			\

@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	25.0
+Version:	25.0.1
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	ftp://ftp.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	90ac047e83079a9046192c732e195329
+# Source0-md5:	b5b57d3ea937a339e0ed7ebea604b430
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -28,8 +28,8 @@ BuildRequires:	libnotify-devel
 BuildRequires:	libpng-devel >= 2:1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.10
-BuildRequires:	nss-devel >= 1:3.15.1
+BuildRequires:	nspr-devel >= 1:4.10.2
+BuildRequires:	nss-devel >= 1:3.15.3
 BuildRequires:	pango-devel
 BuildRequires:	perl-modules
 BuildRequires:	pkg-config

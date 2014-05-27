@@ -1,12 +1,12 @@
 Summary:	Mozilla Runtime Environment for XUL+XPCOM applications
 Name:		xulrunner
-Version:	28.0
+Version:	29.0
 Release:	1
 Epoch:		1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications
 Source0:	ftp://ftp.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	db06b6da6b826cfc6a49c15bca115a6b
+# Source0-md5:	07c515fc487824f107a947d23f420e9d
 Patch0:		%{name}-install-dir.patch
 Patch1:		%{name}-pc.patch
 Patch2:		%{name}-hunspell.patch
@@ -20,6 +20,7 @@ BuildRequires:	cairo-devel >= 1.10.2-2
 BuildRequires:	gstreamer010-plugins-base-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	hunspell-devel
+BuildRequires:	icu-devel
 BuildRequires:	libevent-devel
 BuildRequires:	libffi-devel
 BuildRequires:	libjpeg-devel
@@ -34,7 +35,7 @@ BuildRequires:	perl-modules
 BuildRequires:	pkg-config
 BuildRequires:	python-devel-src
 BuildRequires:	sed
-BuildRequires:	sqlite3-devel >= 3.7.15.2
+BuildRequires:	sqlite3-devel >= 3.8.2
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-libXcursor-devel
 BuildRequires:	xorg-libXft-devel
@@ -119,13 +120,14 @@ ac_add_options --enable-gstreamer
 ac_add_options --enable-startup-notification
 #
 #ac_add_options --enable-system-cairo
+ac_add_options --enable-system-ffi
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-lcms
-ac_add_options --enable-system-sqlite
-ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
+ac_add_options --enable-system-sqlite
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
+ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
@@ -164,6 +166,24 @@ export LDFLAGS="%{rpmldflags} -Wl,-rpath,%{_libdir}/xulrunner"
 #
 # workaround:
 export TERM=xterm
+
+# Traceback (most recent call last):
+#  File "/usr/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+#    "__main__", fname, loader, pkg_name)
+#  File "/usr/lib/python2.7/runpy.py", line 72, in _run_code
+#    exec code in run_globals
+#  File "/home/users/builder/rpm/BUILD/xulrunner-29.0/mozilla-release/python/mozbuild/mozbuild/action/webidl.py", line 7, in <module>
+#    from mozwebidlcodegen import BuildSystemWebIDL
+#  File "/home/users/builder/rpm/BUILD/xulrunner-29.0/mozilla-release/dom/bindings/mozwebidlcodegen/__init__.py", line 20, in <module>
+#    from mozbuild.base import MozbuildObject
+#  File "/home/users/builder/rpm/BUILD/xulrunner-29.0/mozilla-release/python/mozbuild/mozbuild/base.py", line 17, in <module>
+#    from mach.mixin.process import ProcessExecutionMixin
+#  File "/home/users/builder/rpm/BUILD/xulrunner-29.0/mozilla-release/python/mach/mach/mixin/process.py", line 29, in <module>
+#    raise Exception('Could not detect environment shell!')
+# Exception: Could not detect environment shell!
+# Makefile:72: recipe for target 'codegen.pp' failed
+# make[5]: *** [codegen.pp] Error 1
+export SHELL=/usr/bin/sh
 
 %{__make} -f client.mk configure
 %{__make} -f client.mk build		\
